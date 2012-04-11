@@ -1,0 +1,3 @@
+*.java       text diff=java
+*.properties text
+*.xml        text
