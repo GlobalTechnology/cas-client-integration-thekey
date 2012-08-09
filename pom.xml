@@ -2,25 +2,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ccci.gto</groupId>
+    <artifactId>parent</artifactId>
+    <version>2</version>
+  </parent>
+
   <groupId>org.ccci.gto</groupId>
   <artifactId>cas-client-integration-thekey</artifactId>
   <version>1.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+
+  <scm>
+    <connection>scm:git:git@git.gcx.org:java/thekey-cas-client.git</connection>
+    <developerConnection>scm:git:git@git.gcx.org:java/thekey-cas-client.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <slf4j.version>1.6.4</slf4j.version>
+    <cas.client.version>3.2.1</cas.client.version>
   </properties>
+
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -34,34 +39,31 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.7</version>
         <configuration>
           <instructions>
             <Bundle-Name>The Key CAS client support</Bundle-Name>
           </instructions>
         </configuration>
-        <executions>
-          <execution>
-            <id>bundle-manifest</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>manifest</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>org.jasig.cas.client</groupId>
       <artifactId>cas-client-core</artifactId>
-      <version>3.2.1</version>
+      <version>${cas.client.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>maven.gcx.org</id>
+      <url>https://maven.gcx.org</url>
+    </repository>
+  </repositories>
 </project>
