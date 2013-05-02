@@ -107,12 +107,7 @@ public class TheKeyProxyTicketValidator extends Cas20ProxyTicketValidator {
                 for (int i = 0; i < attrList.getLength(); i++) {
                     final Node attrXml = attrList.item(i);
                     if (attrXml instanceof Element) {
-                        String name = attrXml.getLocalName();
-                        if (name == "ssoGuid") {
-                            name = "guid";
-                        }
-                        final String value = attrXml.getTextContent();
-                        attrs.put(name, value);
+                        attrs.put(attrXml.getLocalName(), attrXml.getTextContent());
                     }
                 }
 
