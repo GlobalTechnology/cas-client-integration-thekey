@@ -1,5 +1,12 @@
+#maven ignores
+target/
+
+#eclipse files
 .classpath
 .project
 .settings/
 .wtpmodules
-target/
+
+# IntelliJ files
+*.iml
+.idea
