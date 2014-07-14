@@ -1,11 +1,11 @@
-package org.ccci.gto.cas.client.validation;
+package me.thekey.cas.client.validation;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import org.jasig.cas.client.validation.Cas20ProxyTicketValidator;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -16,19 +16,18 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
-
-import org.jasig.cas.client.validation.Cas20ProxyTicketValidator;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class TheKeyProxyTicketValidator extends Cas20ProxyTicketValidator {
-    private DocumentBuilder xmlDocumentBuilder;
-    private XPath xpathEngine;
+    private static final String XMLNS_CAS = "http://www.yale.edu/tp/cas";
 
-    private final static String XMLNS_CAS = "http://www.yale.edu/tp/cas";
+    private DocumentBuilder xmlDocumentBuilder = null;
+    private XPath xpathEngine = null;
 
     public TheKeyProxyTicketValidator(final String casServerUrlPrefix) {
         super(casServerUrlPrefix);
@@ -53,12 +52,10 @@ public class TheKeyProxyTicketValidator extends Cas20ProxyTicketValidator {
      * @return the xpathEngine
      */
     private XPath getXpathEngine() {
-        // create the Xpath engine for use with the XML parser if one doesn't
-        // exist yet
+        // create the Xpath engine for use with the XML parser if one doesn't exist yet
         if (this.xpathEngine == null) {
-            final XPathFactory xpathFactory = XPathFactory.newInstance();
-            this.xpathEngine = xpathFactory.newXPath();
-            this.xpathEngine.setNamespaceContext(new NamespaceContext() {
+            final XPath xPath = XPathFactory.newInstance().newXPath();
+            xPath.setNamespaceContext(new NamespaceContext() {
                 public String getNamespaceURI(final String prefix) {
                     if (prefix == null) {
                         throw new IllegalArgumentException("No prefix provided");
@@ -82,6 +79,8 @@ public class TheKeyProxyTicketValidator extends Cas20ProxyTicketValidator {
                 }
 
             });
+
+            this.xpathEngine = xPath;
         }
 
         return this.xpathEngine;
@@ -102,7 +101,7 @@ public class TheKeyProxyTicketValidator extends Cas20ProxyTicketValidator {
                     "/cas:serviceResponse/cas:authenticationSuccess/cas:attributes/*", dom, XPathConstants.NODESET);
 
             if (attrList.getLength() > 0) {
-                final HashMap<String, Object> attrs = new HashMap<String, Object>();
+                final HashMap<String, Object> attrs = new HashMap<>();
 
                 for (int i = 0; i < attrList.getLength(); i++) {
                     final Node attrXml = attrList.item(i);
@@ -113,10 +112,7 @@ public class TheKeyProxyTicketValidator extends Cas20ProxyTicketValidator {
 
                 return attrs;
             }
-        } catch (final SAXException e) {
-        } catch (final IOException e) {
-        } catch (final ParserConfigurationException e) {
-        } catch (final XPathExpressionException e) {
+        } catch (final SAXException | IOException | ParserConfigurationException | XPathExpressionException ignored) {
         }
 
         return Collections.emptyMap();

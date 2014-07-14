@@ -1,7 +1,10 @@
-package org.ccci.gto.cas.client;
+package me.thekey.cas.client;
 
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_OK;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -11,9 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RestClient {
     private static final Logger LOG = LoggerFactory.getLogger(RestClient.class);
@@ -46,8 +46,7 @@ public class RestClient {
             out.flush();
             out.close();
 
-            // extract the tgt from the Location header if this was a successful
-            // request
+            // extract the tgt from the Location header if this was a successful request
             if (((HttpURLConnection) conn).getResponseCode() == HTTP_CREATED) {
                 final String location = conn.getHeaderField("Location");
                 return location.substring(location.lastIndexOf("/") + 1);
