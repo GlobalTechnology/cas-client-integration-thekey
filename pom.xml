@@ -10,13 +10,13 @@
 
   <groupId>me.thekey</groupId>
   <artifactId>cas-client-integration-thekey</artifactId>
-  <version>2.0.0-SNAPSHOT</version>
+  <version>2.0.0</version>
   <packaging>jar</packaging>
 
   <scm>
     <connection>scm:git:git@git.gcx.org:java/thekey-cas-client.git</connection>
     <developerConnection>scm:git:git@git.gcx.org:java/thekey-cas-client.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>v2.0.0</tag>
   </scm>
 
   <properties>
