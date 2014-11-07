@@ -6,6 +6,7 @@ import static java.net.HttpURLConnection.HTTP_OK;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class RestClient {
         return casServerUrl + "v1/tickets";
     }
 
-    public String getTicketGrantingTicket(final String username, final String password) {
+    public String getTicketGrantingTicket(@Nonnull final String username, @Nonnull final String password) {
         HttpURLConnection conn = null;
         try {
             conn = this.openHttpConnection(new URL(getRestUrl()));
@@ -81,7 +82,7 @@ public class RestClient {
         return null;
     }
 
-    public String getTicket(final String tgt, final String serviceUrl) {
+    public String getTicket(@Nonnull final String tgt, @Nonnull final String serviceUrl) {
         HttpURLConnection conn = null;
         try {
             conn = this.openHttpConnection(new URL(getRestUrl() + "/" + tgt));

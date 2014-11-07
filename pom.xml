@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.ccci.gto</groupId>
     <artifactId>java-parent</artifactId>
-    <version>19</version>
+    <version>21-SNAPSHOT</version>
   </parent>
 
   <groupId>me.thekey</groupId>
@@ -55,6 +55,10 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
     </dependency>
   </dependencies>
 
