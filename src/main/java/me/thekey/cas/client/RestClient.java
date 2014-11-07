@@ -59,11 +59,10 @@ public class RestClient {
             // generate POST request
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            out.write("username=" + URLEncoder.encode(username, "UTF-8") + "&password="
-                    + URLEncoder.encode(password, "UTF-8"));
-            out.flush();
-            out.close();
+            try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()))) {
+                out.write("username=" + URLEncoder.encode(username, "UTF-8") + "&password=" + URLEncoder.encode
+                        (password, "UTF-8"));
+            }
 
             // extract the tgt from the Location header if this was a successful request
             if (conn.getResponseCode() == HTTP_CREATED) {
@@ -93,17 +92,15 @@ public class RestClient {
             // generate POST request
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-            out.write("service=" + URLEncoder.encode(serviceUrl, "UTF-8"));
-            out.flush();
-            out.close();
+            try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()))) {
+                out.write("service=" + URLEncoder.encode(serviceUrl, "UTF-8"));
+            }
 
             // extract the st from the response
             if (conn.getResponseCode() == HTTP_OK) {
-                final BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                final String ticket = in.readLine();
-                in.close();
-                return ticket;
+                try (BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+                    return in.readLine();
+                }
             }
         } catch (final Exception e) {
             LOG.error("error fetching a ServiceTicket", e);
